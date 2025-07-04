@@ -31,7 +31,7 @@ This is a lightweight, secure Mail Transfer Agent (MTA) built in Go, designed to
 ## 🔄 Mail Flow Diagram
 
 ```
-[Acelle Mail / SMTP Client]
+[Acelle Mail / SMTP Client] 
        ↓ (SMTP AUTH + STARTTLS)
       [main.go → queues .eml]
        ↓
@@ -93,6 +93,73 @@ Date: Fri, 04 Jul 2025 17:02:03 +0000
 MIME-Version: 1.0
 Content-Type: multipart/alternative; boundary="..."
 ... MIME body ...
+```
+
+---
+
+## 🔁 Running as Services (Linux systemd)
+
+### 🏗️ Build the binaries:
+
+```bash
+go build -o /usr/local/bin/mta-server main.go
+go build -o /usr/local/bin/mta-queue queue.go
+```
+
+### 📄 Create systemd service units:
+
+**/etc/systemd/system/mta-server.service**
+
+```ini
+[Unit]
+Description=Go SMTP Server (MTA)
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/mta-server
+WorkingDirectory=/root/go-mta
+User=root
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+**/etc/systemd/system/mta-queue.service**
+
+```ini
+[Unit]
+Description=Go SMTP Delivery Queue Processor
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/mta-queue
+WorkingDirectory=/root/go-mta
+User=root
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### 🚀 Enable and start services:
+
+```bash
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+
+sudo systemctl enable mta-server.service
+sudo systemctl enable mta-queue.service
+
+sudo systemctl start mta-server.service
+sudo systemctl start mta-queue.service
+```
+
+### ✅ Verify status:
+
+```bash
+sudo systemctl status mta-server.service
+sudo systemctl status mta-queue.service
 ```
 
 ---
