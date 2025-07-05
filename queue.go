@@ -21,7 +21,7 @@ func cleanEmailAddress(email string) string {
 
 const (
     queueDir    = "/var/mailqueue"
-    numWorkers  = 5                      // 🔁 Adjust worker count here
+    numWorkers  = 10                      // 🔁 Adjust worker count here
     heloHost    = "mx.tamimahdigital.com" // ✅ Your VPS hostname (FQDN)
 )
 
