@@ -59,4 +59,4 @@
 
 ---
 
-> Built with ❤️ to deliver your campaigns reliably and securely.
+> Ny Hobby work
