@@ -17,8 +17,8 @@ import (
 var (
     mailDir   = "/var/mailqueue"
     usersFile = "/root/users.txt"
-    tlsCert   = "/root/cert.pem"
-    tlsKey    = "/root/key.pem"
+    tlsCert   = "/etc/ssl/certs/ssl-cert-snakeoil.pem"
+    tlsKey    = "/etc/ssl/private/ssl-cert-snakeoil.key"
 )
 
 type Backend struct{}
