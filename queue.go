@@ -19,10 +19,23 @@ func cleanEmailAddress(email string) string {
 }
 
 
+
+// 😼 Helo name check 
+var heloHost string
+
+func init() {
+    out, err := exec.Command("hostname", "-f").Output()
+    if err != nil {
+        log.Fatalf("Failed to get FQDN: %v", err)
+    }
+
+    heloHost = strings.TrimSpace(string(out))
+    log.Printf("Using HELO hostname: %s", heloHost)
+}
+
 const (
     queueDir    = "/var/mailqueue"
     numWorkers  = 10                      // 🔁 Adjust worker count here
-    heloHost    = "mx.tamimahdigital.com" // ✅ Your VPS hostname (FQDN)
 )
 
 func main() {
